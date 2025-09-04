@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace VotingSystem.Shared.SignalR.Models
+{
+    public class TopicNotificationDto
+    {
+        public int Id { get; set; }
+        public List<ChoiceNotificationDto> Choices { get; set; } = new();
+        public int TotalVotes { get; set; }
+    }
+}

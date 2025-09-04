@@ -1,0 +1,106 @@
+﻿@implements IAsyncDisposable
+
+@page "/topic/{Id:int}"
+@using VotingSystem.Blazor.WebAssembly.Services
+@using VotingSystem.Blazor.WebAssembly.Services.HubServices
+@using VotingSystem.Blazor.WebAssembly.ViewModels
+@using VotingSystem.Shared.SignalR.Models
+@inject NavigationManager NavigationManager
+@inject ITopicService TopicService
+@inject ITopicHubService topicHubService
+
+@if (_topic is not null)
+{
+	<h3>@_topic.Name</h3>
+
+	<div class="my-4 container">
+		<div class="row mb-3">
+			<div class="col-5 fs-4">@_topic.StartDate - @_topic.CloseDate</div>
+			<div class="col-2 fs-4">[@_topic.MinimalVotes - @_topic.MaximalVotes]</div>
+		</div>
+		<div class="row mb-3">
+			@_topic.Description
+		</div>
+		<div class="row">
+			<div class="col-6">
+				<span class="fs-4">Szavazatok</span>
+				<div class="list-group">
+					@foreach (var choice in _topic.Choices)
+					{
+						<div class="list-group-item bg-secondary text-light">@choice.Value : @choice.VoteCount (@GetVotePercentage(choice))</div>
+					}
+				</div>
+			</div>
+			@if (!_topic.Live || (_topic.Live && _topic.CloseDate <= DateTime.Now))
+			{
+				<div class="col-6">
+					<span class="fs-4">Résztvevők</span>
+					<div class="list-group">
+						@foreach (var voter in _topic.Voters)
+						{
+							<div class="list-group-item bg-secondary text-light">@voter.Name</div>
+						}
+					</div>
+				</div>
+			}
+		</div>
+		<div class="row">
+			<div class="col offset-1">
+				<div class="row">
+					<button class="btn btn-primary mt-4" @onclick="() => OnBack()">Vissza</button>
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
+@code {
+	[Parameter]
+	public int Id { get; set; }
+
+	private TopicViewModel? _topic;
+
+	protected override async Task OnInitializedAsync()
+	{
+		_topic = await TopicService.GetTopicByIdAsync(Id);
+
+		await topicHubService.StartHubConnectionAsync(Id);
+
+		topicHubService.OnVoteUpdateReceived += HandleVoteUpdate;
+	}	
+
+	private void HandleVoteUpdate(TopicNotificationDto dto)
+	{
+		if (_topic != null && _topic.Id == dto.Id)
+		{
+			foreach (var updated in dto.Choices)
+			{
+				var choice = _topic.Choices.FirstOrDefault(c => c.Value == updated.Value);
+				if (choice != null)
+				{
+					choice.VoteCount = updated.VoteCount;
+				}
+			}
+			InvokeAsync(StateHasChanged);
+		}
+	}
+
+	public void OnBack()
+	{
+		NavigationManager.NavigateTo("/topics");
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		topicHubService.OnVoteUpdateReceived -= HandleVoteUpdate;
+		await topicHubService.DisconnectHubAsync(Id);
+	}
+
+	private string GetVotePercentage(ChoiceViewModel choice)
+	{
+		var total = _topic?.Choices.Sum(c => c.VoteCount) ?? 0;
+		if (total == 0) return "0%";
+		var percent = (double)choice.VoteCount / total * 100;
+		return $"{percent:F1}%";
+	}
+}

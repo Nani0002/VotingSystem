@@ -1,0 +1,54 @@
+﻿@using System.Globalization
+<div class="input-group mb-3">
+    <button class="btn btn-light" type="button" @onclick="SetToNow">
+        Most
+    </button>
+    <label for="@Id" class="input-group-text w-25">@Text</label>
+    <input id="@Id" type="date" class="form-control" value="@DatePart" @onchange="OnDateChanged" disabled="@Disabled"/>
+    <input id="@Id-time" type="time" class="form-control" value="@TimePart" @onchange="OnTimeChanged" disabled="@Disabled" />
+</div>
+
+@code {
+    [Parameter]
+    public required string Id { get; set; }
+
+    [Parameter]
+    public required string Text { get; set; }
+
+    [Parameter]
+    public DateTime? Value { get; set; }
+
+    [Parameter]
+    public EventCallback<DateTime?> ValueChanged { get; set; }
+
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    private string DatePart => Value?.ToString("yyyy-MM-dd") ?? "";
+
+    private string TimePart => Value?.ToString("HH:mm") ?? "00:00";
+
+    private async Task OnDateChanged(ChangeEventArgs e)
+    {
+        if (DateTime.TryParseExact(e.Value?.ToString(), "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var date))
+        {
+            var time = Value?.TimeOfDay ?? TimeSpan.Zero;
+            await ValueChanged.InvokeAsync(date.Date + time);
+        }
+    }
+
+    private async Task OnTimeChanged(ChangeEventArgs e)
+    {
+        if (TimeSpan.TryParse(e.Value?.ToString(), out var time))
+        {
+            var date = Value?.Date ?? DateTime.Today;
+            await ValueChanged.InvokeAsync(date + time);
+        }
+    }
+
+    private async Task SetToNow()
+    {
+        if(!Disabled)
+            await ValueChanged.InvokeAsync(DateTime.Now);
+    }
+}

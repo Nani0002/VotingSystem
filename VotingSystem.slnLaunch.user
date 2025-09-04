@@ -1,0 +1,45 @@
+[
+  {
+    "Name": "API + Admin",
+    "Projects": [
+      {
+        "Path": "VotingSystem.WebAPI\\VotingSystem.WebAPI.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "VotingSystem.Blazor.WebAssembly\\VotingSystem.Blazor.WebAssembly.csproj",
+        "Action": "Start"
+      }
+    ]
+  },
+  {
+    "Name": "API + WPF",
+    "Projects": [
+      {
+        "Path": "VotingSystem.WebAPI\\VotingSystem.WebAPI.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "VotingSystem.WPF\\VotingSystem.WPF.csproj",
+        "Action": "Start"
+      }
+    ]
+  },
+  {
+    "Name": "All Out",
+    "Projects": [
+      {
+        "Path": "VotingSystem.WebAPI\\VotingSystem.WebAPI.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "VotingSystem.Blazor.WebAssembly\\VotingSystem.Blazor.WebAssembly.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "VotingSystem.WPF\\VotingSystem.WPF.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

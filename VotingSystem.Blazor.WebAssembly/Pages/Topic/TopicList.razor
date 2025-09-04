@@ -1,0 +1,103 @@
+﻿@page "/topics"
+@using VotingSystem.Blazor.WebAssembly.Services
+@using VotingSystem.Blazor.WebAssembly.ViewModels
+@inject NavigationManager NavigationManager
+@inject ITopicService TopicService
+
+<h3>Témák</h3>
+
+@if (_topics is null)
+{
+	<p>Töltés...</p>
+}
+else if (!_topics.Any())
+{
+	<p>Nincs talált szavazás</p>
+}
+else
+{
+	<div class="my-4 container">
+		@foreach (var topic in _topics)
+		{
+			<div class="card mb-2 mt-5 px-3 bg-dark text-light" @onclick="() => ShowTopic(topic.Id)">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-8">
+							<h4 class="card-title">@topic.Name</h4>
+						</div>
+						<div class="col-2 mb-2">
+							<div class="row me-2">
+								<button class="btn btn-success" @onclick="() => EditTopic(topic.Id)">Szerkeztés</button>
+							</div>
+						</div>
+						<div class="col-2 mb-2">
+							<div class="row ms-2">
+								<button class="btn btn-danger" @onclick="() => DeleteTopic(topic.Id)">Törlés</button>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-5">
+							@topic.Description
+						</div>
+						<div class="col-3">@topic.StartDate</div>
+						<div class="col-1">-</div>
+						<div class="col-3">@topic.CloseDate</div>
+					</div>
+					<div class="row">
+						@if (!topic.Choices.Any())
+						{
+							<div>
+								NINCS VÁLASZTÁI LEHEŐSÉG
+							</div>
+						}
+						else
+						{
+							<div class="col-12">
+								[@topic.MinimalVotes - @topic.MaximalVotes]
+								<div class="list-group mt-2">
+									@foreach (var choice in topic.Choices)
+									{
+										<div class="list-group-item list-group-item-action bg-dark text-light">@choice.Value</div>
+									}
+								</div>
+							</div>
+						}
+					</div>
+				</div>
+			</div>
+		}
+	</div>
+}
+
+@code {
+	private List<TopicViewModel>? _topics;
+
+	protected override async Task OnInitializedAsync()
+	{
+		_topics = await TopicService.GetTopicsAsync();
+		StateHasChanged();
+	}
+
+	private void AddTopic()
+	{
+		NavigationManager.NavigateTo("/topic/add");
+	}
+
+	private void EditTopic(int topicId)
+	{
+		NavigationManager.NavigateTo($"/topic/edit/{topicId}");
+	}
+
+	private async Task DeleteTopic(int topicId)
+	{
+		await TopicService.DeleteTopicAsync(topicId);
+		_topics = await TopicService.GetTopicsAsync();
+		StateHasChanged();
+	}
+
+	private void ShowTopic(int topicId)
+	{
+		NavigationManager.NavigateTo($"/topic/{topicId}");
+	}
+}

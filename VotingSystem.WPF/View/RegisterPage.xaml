@@ -1,0 +1,108 @@
+﻿<Page x:Class="VotingSystem.WPF.View.RegisterPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:VotingSystem.WPF.View"
+      xmlns:vm="clr-namespace:VotingSystem.WPF.ViewModel"
+      mc:Ignorable="d" 
+      d:DesignHeight="1080" d:DesignWidth="1920"
+      Title="RegisterPage"
+      d:DataContext="{d:DesignInstance Type=vm:RegisterViewModel}">
+    <Page.Resources>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Cursor" Value="Arrow"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Cursor" Value="Hand"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+    <Grid Background="#FFD69052">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Label Content="Regisztráció" FontSize="120" FontFamily="Calibri Light" Foreground="#FFDADADA" VerticalContentAlignment="Center" 
+           HorizontalContentAlignment="Center"/>       
+
+        <Grid Grid.Column="1" Background="#FF1D1E2B">
+            <Border VerticalAlignment="Center" BorderBrush="#FF444444" BorderThickness="0,2,0,2" Margin="0,20,0,0" Grid.Column="1">
+                <StackPanel>
+                    <!--Felhasználónév-->
+                    <Grid Background="#FF23243D">
+                        <Label Content="Email cím" FontSize="70" FontFamily="Calibri Light" VerticalContentAlignment="Center" 
+                               Margin="60,0,0,0" Foreground="#FFACACAC" x:Name="EmailLabel"/>
+                        <TextBox FontSize="70"  FontFamily="Calibri Light" VerticalAlignment="Stretch"
+                                 Background="Transparent" Margin="10,0,0,0" BorderBrush="{x:Null}" local:EnterKeyBehavior.Command="{Binding RegisterCommand}"
+                                 VerticalContentAlignment="Center" Foreground="#FFACACAC" Text="{Binding Email}"
+                                 GotFocus="ElementGotFocus" LostFocus="ElementLostFocus" x:Name="EmailBox"/>
+                    </Grid>
+
+                    <Grid Background="#FF23243D" Margin="0,5,0,0">
+                        <Label Content="Név" FontSize="70" FontFamily="Calibri Light" VerticalContentAlignment="Center" 
+                               Margin="60,0,0,0" Foreground="#FFACACAC" x:Name="NameLabel"/>
+                        <TextBox FontSize="70"  FontFamily="Calibri Light" VerticalAlignment="Stretch"
+                                 Background="Transparent" Margin="10,0,0,0" BorderBrush="{x:Null}" local:EnterKeyBehavior.Command="{Binding RegisterCommand}"
+                                 VerticalContentAlignment="Center" Foreground="#FFACACAC" Text="{Binding Name}"
+                                 GotFocus="ElementGotFocus" LostFocus="ElementLostFocus" x:Name="NameBox"/>
+                    </Grid>
+
+                    <!--Jelszó-->
+                    <Grid Background="#FF23243D" Margin="0,5,0,0">
+                        <Label Content="Jelszó" FontSize="70"  FontFamily="Calibri Light" VerticalContentAlignment="Center" 
+                               Margin="60,0,0,0" Foreground="#FFACACAC" x:Name="PasswordLabel"/>
+                        <PasswordBox FontSize="70"  FontFamily="Calibri Light" VerticalAlignment="Stretch" 
+                                     Background="Transparent" Margin="10,0,0,0" BorderBrush="{x:Null}"  local:EnterKeyBehavior.Command="{Binding RegisterCommand}"
+                                     VerticalContentAlignment="Center" Foreground="#FFACACAC" x:Name="PasswordBox"
+                                     GotFocus="ElementGotFocus" LostFocus="ElementLostFocus" PasswordChar="*" PasswordChanged="PasswordBox_PasswordChanged"/>
+                    </Grid>
+
+                    <Grid Background="#FF23243D" Margin="0,5,0,0">
+                        <Label Content="Jelszó mégegyszer" FontSize="70"  FontFamily="Calibri Light" VerticalContentAlignment="Center" 
+                               Margin="60,0,0,0" Foreground="#FFACACAC" x:Name="PasswordConfirmLabel"/>
+                        <PasswordBox FontSize="70"  FontFamily="Calibri Light" VerticalAlignment="Stretch" 
+                                     Background="Transparent" Margin="10,0,0,0" BorderBrush="{x:Null}" local:EnterKeyBehavior.Command="{Binding RegisterCommand}"
+                                     VerticalContentAlignment="Center" Foreground="#FFACACAC" x:Name="PasswordConfirmBox"
+                                     GotFocus="ElementGotFocus" LostFocus="ElementLostFocus" PasswordChar="*" PasswordChanged="PasswordBox_PasswordChanged"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+            
+            <Border BorderBrush="#FFD69052" BorderThickness="2,2,2,2" VerticalAlignment="Bottom" Margin="-50,0,0,20" 
+                HorizontalAlignment="Left" Width="500" CornerRadius="50" Height="100">
+                <Button Content="Regisztráció" FontSize="70" HorizontalContentAlignment="Center" 
+                    Background="{x:Null}" FontFamily="Calibri Light" 
+                    Foreground="#FFD69052" BorderBrush="{x:Null}"
+                    Command="{Binding RegisterCommand}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="Transparent">
+                                <ContentPresenter HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </Border>
+
+            <Border BorderBrush="#FFD69052" BorderThickness="2,2,2,2" VerticalAlignment="Bottom" Margin="0,0,-50,20" 
+                HorizontalAlignment="Right" Width="500" CornerRadius="50" Height="100">
+                <Button Content="Bejelentkezés" FontSize="70" HorizontalContentAlignment="Center" 
+                    Background="{x:Null}" FontFamily="Calibri Light" 
+                    Foreground="#FFD69052" BorderBrush="{x:Null}"
+                    Command="{Binding LoginCommand}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="Transparent">
+                                <ContentPresenter HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </Border>
+        </Grid>
+    </Grid>
+</Page>

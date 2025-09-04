@@ -1,0 +1,79 @@
+﻿@page "/topic/add"
+@using VotingSystem.Blazor.WebAssembly.Services
+@using VotingSystem.Blazor.WebAssembly.ViewModels
+@using VotingSystem.Blazor.WebAssembly.Components
+@inject NavigationManager NavigationManager
+@inject ITopicService TopicService
+
+<h3>Téma szerkesztése</h3>
+
+
+<div class="container">
+	<div class="row">
+		<div class="offset-1 col-10">
+			<EditForm Model="_topic" OnValidSubmit="HandleSubmit">
+				<DataAnnotationsValidator />
+				<ValidationSummary />
+
+				<div class="form-group">
+					<label for="name">Szavazás neve</label>
+					<InputText id="name" class="form-control" @bind-Value="_topic.Name" />
+				</div>
+
+				<div class="form-group">
+					<label for="description">Leírás</label>
+					<InputTextArea id="description" class="form-control" @bind-Value="_topic.Description" />
+				</div>
+
+				<div class="row">
+					<div class="col-6">
+						<div class="form-group">
+							<label for="minimalVotes">Minimum választás</label>
+							<InputNumber id="minimalVotes" class="form-control" @bind-Value="_topic.MinimalVotes" min="1" />
+						</div>
+					</div>
+					<div class="col-6">
+						<div class="form-group">
+							<label for="maximalVotes">Maximum választás</label>
+							<InputNumber id="maximalVotes" class="form-control" @bind-Value="_topic.MaximalVotes" min="1" />
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="startDate">Nyitási idő</label>
+					<DateTimeInput Text="Nyitási idő" Id="startDate" @bind-Value="_topic.StartDate" />
+				</div>
+
+				<div class="form-group">
+					<label for="closeDate">Lezárási idő</label>
+					<DateTimeInput Text="Lezárási idő" Id="closeDate" @bind-Value="_topic.CloseDate" />
+				</div>
+
+				<div class="form-check form-switch my-3 fs-4">
+					<label class="form-check-label" for="live">Élő mód</label>
+					<InputCheckbox class="form-check-input" role="switch" type="checkbox" id="live" @bind-Value="_topic.Live"/>
+				</div>
+
+				<Select2Input Text="Válaztási lehetőségek" @bind-Value="_topic.Choices" />
+
+				<button type="submit" class="btn btn-primary mt-4">Létrehozás</button>
+			</EditForm>
+		</div>
+	</div>
+</div>
+
+@code {
+	private TopicViewModel _topic = new();
+
+	private async Task HandleSubmit()
+	{
+		if (_topic == null)
+			throw new MissingMemberException(nameof(_topic));
+
+		if(_topic.StartDate!.Value.AddMinutes(15) < _topic.CloseDate!.Value){
+			await TopicService.CreateTopicAsync(_topic);
+			NavigationManager.NavigateTo("/topics");
+		}
+	}
+}

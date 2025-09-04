@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35931.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingSystem.WebAPI", "VotingSystem.WebAPI\VotingSystem.WebAPI.csproj", "{20C3B66C-46A2-40C7-9767-3049A685A3BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingSystem.DataAccess", "VotingSystem.DataAccess\VotingSystem.DataAccess.csproj", "{7FE21BA9-213E-4948-A8EF-53A9E4CFF5F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingSystem.Shared", "VotingSystem.Shared\VotingSystem.Shared.csproj", "{871447CA-1B2D-4234-AEA7-052A65FADE6B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingSystem.Blazor.WebAssembly", "VotingSystem.Blazor.WebAssembly\VotingSystem.Blazor.WebAssembly.csproj", "{EB1CF018-7409-4414-BDC9-0CE38237C9AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingSystem.WPF", "VotingSystem.WPF\VotingSystem.WPF.csproj", "{29181DBF-1E3A-40DC-B690-21C276A792A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingSystem.SignalR", "VotingSystem.SignalR\VotingSystem.SignalR.csproj", "{1A83355A-FCD0-4738-AD68-DE7BAE2DF9AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingSystem.Testing", "VotingSystem.Testing\VotingSystem.Testing.csproj", "{8EFF758A-DF77-45A3-846D-7898996FC9D8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{20C3B66C-46A2-40C7-9767-3049A685A3BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20C3B66C-46A2-40C7-9767-3049A685A3BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20C3B66C-46A2-40C7-9767-3049A685A3BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20C3B66C-46A2-40C7-9767-3049A685A3BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FE21BA9-213E-4948-A8EF-53A9E4CFF5F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FE21BA9-213E-4948-A8EF-53A9E4CFF5F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FE21BA9-213E-4948-A8EF-53A9E4CFF5F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FE21BA9-213E-4948-A8EF-53A9E4CFF5F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{871447CA-1B2D-4234-AEA7-052A65FADE6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{871447CA-1B2D-4234-AEA7-052A65FADE6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{871447CA-1B2D-4234-AEA7-052A65FADE6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{871447CA-1B2D-4234-AEA7-052A65FADE6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB1CF018-7409-4414-BDC9-0CE38237C9AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB1CF018-7409-4414-BDC9-0CE38237C9AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB1CF018-7409-4414-BDC9-0CE38237C9AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB1CF018-7409-4414-BDC9-0CE38237C9AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29181DBF-1E3A-40DC-B690-21C276A792A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29181DBF-1E3A-40DC-B690-21C276A792A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29181DBF-1E3A-40DC-B690-21C276A792A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29181DBF-1E3A-40DC-B690-21C276A792A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A83355A-FCD0-4738-AD68-DE7BAE2DF9AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A83355A-FCD0-4738-AD68-DE7BAE2DF9AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A83355A-FCD0-4738-AD68-DE7BAE2DF9AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A83355A-FCD0-4738-AD68-DE7BAE2DF9AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EFF758A-DF77-45A3-846D-7898996FC9D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EFF758A-DF77-45A3-846D-7898996FC9D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EFF758A-DF77-45A3-846D-7898996FC9D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EFF758A-DF77-45A3-846D-7898996FC9D8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

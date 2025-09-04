@@ -1,0 +1,26 @@
+﻿@inject NavigationManager Navigation
+@inherits LayoutComponentBase
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+
+<div>
+    <main>
+        @if (!Navigation.Uri.Contains("login") && !Navigation.Uri.Contains("register"))
+        {
+            <MenuComponent/>
+        }
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        if (await LocalStorage.GetItemAsync<string>("RefreshToken") == null)
+        {
+            Navigation.NavigateTo("/login");
+        }
+    }
+}

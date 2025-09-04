@@ -1,0 +1,40 @@
+﻿@using VotingSystem.Blazor.WebAssembly.ViewModels
+@inject IJSRuntime JS
+
+<div class="input-group mb-3 text-dark">
+    <div class="input-group-text">@Text</div>
+    <select id="@_selectId" multiple="multiple" class="form-select" data-placeholder="@Text" disabled="@Disabled"></select>
+</div>
+
+@code {
+    [Parameter]
+    public required string Text { get; set; }
+
+    [Parameter]
+    public List<ChoiceViewModel> Value { get; set; } = new();
+
+    [Parameter]
+    public EventCallback<List<ChoiceViewModel>> ValueChanged { get; set; }
+
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    private string _selectId = $"select2_{Guid.NewGuid():N}";
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var initialValues = Value.Select(c => c.Value).ToList();
+            await JS.InvokeVoidAsync("select2Interop.init", _selectId, initialValues, DotNetObjectReference.Create(this));
+        }
+    }
+
+    [JSInvokable]
+    public async Task OnSelect2Changed(List<string> newValues)
+    {
+        Value = newValues.Select(v => new ChoiceViewModel { Value = v }).ToList();
+        await ValueChanged.InvokeAsync(Value);
+    }
+}

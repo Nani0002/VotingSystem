@@ -1,0 +1,241 @@
+﻿<Page x:Class="VotingSystem.WPF.View.TopicsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:VotingSystem.WPF.View"
+      xmlns:vm="clr-namespace:VotingSystem.WPF.ViewModel"
+      xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+      mc:Ignorable="d" 
+      d:DesignHeight="1080" d:DesignWidth="1920"
+      Title="TopicsPage" d:DataContext="{d:DesignInstance Type=vm:TopicsListViewModel, IsDesignTimeCreatable=True}">
+    <Page.Resources>
+        <local:UserViewToTextConverter x:Key="UVTTC"/>
+        <local:LiveUserViewToVisibilityConverter x:Key="LUVTVC"/>
+        <local:VoteCountToPercentageConverter x:Key="VCTPC"/>
+        <DataTemplate x:Key="CIT" DataType="{x:Type vm:ChoiceViewModel}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Label FontSize="34" Content="{Binding Value}" Foreground="#FFACACAC"/>
+                <Label FontSize="34" Content=":" Grid.Column="1" Foreground="#FFACACAC"/>
+                <Label FontSize="34" Content="{Binding VoteCount}" Grid.Column="2" Foreground="#FFACACAC"/>
+                <Label FontSize="34" Grid.Column="3" Foreground="#FFACACAC">
+                    <Label.Content>
+                        <MultiBinding Converter="{StaticResource VCTPC}">
+                            <Binding Path="VoteCount"/>
+                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBox}}" Path="DataContext.VoteCount"/>
+                        </MultiBinding>
+                    </Label.Content>
+                </Label>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="TIT" DataType="{x:Type vm:TopicViewModel}">
+            <Button Command="{Binding DataContext.ShowCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding Id}" Background="Transparent" BorderThickness="0"
+                    HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="75"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="25"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="75"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="{Binding Name}" VerticalContentAlignment="Center" Grid.Column="0" FontSize="45" Foreground="#FFACACAC"/>
+                        <Label Content="{Binding StartDate}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Column="1" FontSize="45" Foreground="#FFACACAC"/>
+                        <Label Content="-" Grid.Column="2" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="45" Foreground="#FFACACAC"/>
+                        <Label Content="{Binding CloseDate}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Column="3" FontSize="45" Foreground="#FFACACAC"/>
+                        <Image Grid.Column="4" Source="pack://application:,,,/View/check.png" Visibility="{Binding UserVoted, Converter={StaticResource UVTTC}}"/>
+                    </Grid>
+
+                    <ListBox Grid.Row="1" Visibility="{Binding ShowResults, Converter={StaticResource LUVTVC}}"
+                             ItemsSource="{Binding Choices}" Background="Transparent" BorderThickness="0"
+                             ItemTemplate="{StaticResource CIT}" Focusable="False" IsHitTestVisible="False" />
+                </Grid>
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="Transparent">
+                            <ContentPresenter HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </DataTemplate>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="Orange"/>
+            <Setter Property="FontFamily" Value="Calibri Light"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="50"/>
+            <Setter Property="Cursor" Value="Arrow"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Cursor" Value="Hand"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+    <Grid Background="#FF1D1E2B">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="150"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Border Height="80" Grid.Column="1" Margin="-40,0,50,0" Background="#FF23243D"
+                BorderBrush="#FFD69052" BorderThickness="2,2,2,2" CornerRadius="40">
+            <Grid>
+                <TextBox Background="#FF23243D" Margin="25,0,275,0"
+                         BorderBrush="#FFD69052" BorderThickness="0,0,2,0"
+                         FontFamily="Calibri Light" FontSize="60" VerticalContentAlignment="Center" Padding="20,0,0,0"
+                         Text="{Binding Search}" Foreground="#FFACACAC"/>
+                <Button Background="Transparent" Width="250" HorizontalAlignment="Right" Margin="0,0,25,0"
+                        Content="Keresés" Foreground="#FFD69052" Command="{Binding SearchCommand}"
+                        FontFamily="Calibri Light" FontSize="60">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="Transparent">
+                                <ContentPresenter HorizontalAlignment="Center"
+                                  VerticalAlignment="Stretch"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </Grid>
+        </Border>
+
+        <Grid Background="#FFD69052">
+            <TextBlock Text="Szavazások" VerticalAlignment="Center" TextAlignment="Center" FontSize="50"/>
+        </Grid>
+
+        <StackPanel Grid.Row="1" Background="Gainsboro" x:Name="BookCommands" Visibility="Visible">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150px"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Label Content="Kezdő dátum" Margin="10,0,10,0" FontSize="30" Grid.ColumnSpan="2"/>
+                <Border CornerRadius="10,0,0,10" BorderThickness="2" BorderBrush="Orange" Margin="10,10,0,10" Background="Orange" Grid.Row="1">
+                    <Button Content="Most"  Height="50" FontSize="30" Background="Transparent" Command="{Binding NowCommand}" CommandParameter="start">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="Transparent">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </Border>
+                <xctk:DateTimePicker Value="{Binding StartDate}" BorderThickness="0" FontSize="30" 
+                                     Margin="0,10,10,10" Height="54" Format="Custom" FormatString="yyyy-MM-dd HH:mm" 
+                                     Grid.Column="1" Grid.Row="1"/>
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150px"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Label Content="Záró dátum" Margin="10,0,10,0" FontSize="30" Grid.ColumnSpan="2"/>
+                <Border CornerRadius="10,0,0,10" BorderThickness="2" BorderBrush="Orange" Margin="10,10,0,10" Background="Orange"  Grid.Row="1">
+                    <Button Content="Most"  Height="50" FontSize="30" Background="Transparent" Command="{Binding NowCommand}" CommandParameter="end">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="Transparent">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </Border>
+                <xctk:DateTimePicker Value="{Binding EndDate}" BorderThickness="0" FontSize="30" 
+                                     Margin="0,10,10,10" Height="54" Format="Custom" FormatString="yyyy-MM-dd HH:mm" 
+                                     Grid.Column="1" Grid.Row="1"/>
+            </Grid>
+
+            <Border Grid.Row="1" VerticalAlignment="Bottom" CornerRadius="10" BorderThickness="2" BorderBrush="Orange" 
+                Height="90" Margin="10,10" Background="Orange">
+                <Button Grid.Row="1" VerticalAlignment="Stretch" Command="{Binding ListAllCommand}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="Transparent">
+                                <ContentPresenter HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                    <TextBlock Text="Összes" VerticalAlignment="Center" TextAlignment="Center"/>
+                </Button>
+            </Border>
+            <Border Grid.Row="1" VerticalAlignment="Bottom" CornerRadius="10" BorderThickness="2" BorderBrush="Orange" 
+                Height="90" Margin="10,10" Background="Orange">
+                <Button Grid.Row="1" VerticalAlignment="Stretch" Command="{Binding ListOpenCommand}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="Transparent">
+                                <ContentPresenter HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                    <TextBlock Text="Nyitott" VerticalAlignment="Center" TextAlignment="Center"/>
+                </Button>
+            </Border>
+            <Border Grid.Row="1" VerticalAlignment="Bottom" CornerRadius="10" BorderThickness="2" BorderBrush="Orange" 
+                Height="90" Margin="10,10" Background="Orange">
+                <Button Grid.Row="1" VerticalAlignment="Stretch" Command="{Binding ListClosedCommand}">
+                    <TextBlock Text="Lezárt" VerticalAlignment="Center" TextAlignment="Center"/>
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="Transparent">
+                                <ContentPresenter HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </Border>
+        </StackPanel>
+
+        <ListBox ItemsSource="{Binding Topics}"
+                 ItemTemplate="{StaticResource TIT}"
+                 Background="Transparent"
+                 HorizontalContentAlignment="Stretch"
+                 Grid.Column="1" Grid.Row="1"
+                 BorderThickness="0"/>
+
+        <Border Grid.Row="1" VerticalAlignment="Bottom" CornerRadius="10" BorderThickness="2" BorderBrush="Orange" 
+                Height="90" Margin="10,10" Background="Orange">
+            <Button Grid.Row="1" VerticalAlignment="Stretch" Command="{Binding LogOutCommand}" >
+                <TextBlock Text="Kijelentkezés" VerticalAlignment="Center" TextAlignment="Center"/>
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="Transparent">
+                            <ContentPresenter HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </Border>
+    </Grid>
+</Page>

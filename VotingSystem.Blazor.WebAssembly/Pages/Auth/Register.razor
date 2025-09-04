@@ -1,0 +1,69 @@
+﻿@page "/register"
+@using VotingSystem.Blazor.WebAssembly.Services
+@using VotingSystem.Blazor.WebAssembly.ViewModels
+@inject NavigationManager NavigationManager
+@inject IAuthenticationService AuthenticationService
+
+<div class="my-4 container">
+
+    <h1>Regiszráció</h1>
+
+    <EditForm Model="RegisterViewModel" OnValidSubmit="HandleRegister">
+        <DataAnnotationsValidator />
+
+        <div class="mb-3">
+            <label class="form-label" for="username">Név:</label>
+            <InputText class="form-control form-control" id="username" @bind-Value="RegisterViewModel.Name" />
+            <ValidationMessage For="@(() => RegisterViewModel.Name)" class="text-danger" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="email">Email:</label>
+            <InputText class="form-control form-control" id="email" @bind-Value="RegisterViewModel.Email" />
+            <ValidationMessage For="@(() => RegisterViewModel.Email)" class="text-danger" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="password">Jelszó:</label>
+            <InputText type="password" class="form-control form-control" id="password" @bind-Value="RegisterViewModel.Password" />
+            <ValidationMessage For="@(() => RegisterViewModel.Password)" class="text-danger" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="password-confirmation">Jelszó mégegyszer:</label>
+            <InputText type="password" class="form-control form-control" id="password-confirmation" @bind-Value="RegisterViewModel.PasswordConfirmation" />
+            <ValidationMessage For="@(() => RegisterViewModel.PasswordConfirmation)" class="text-danger" />
+        </div>
+
+        <div class="row">
+            <div class="col-2">
+                <div class="row">
+                    <button class="btn btn-primary" type="submit">Regisztráció</button>
+                </div>
+            </div>
+        </div>
+    </EditForm>
+    <div class="row">
+        <div class="col-2">
+            <div class="row">
+                <button class="btn btn-outline-primary mt-2" @onclick=Login>Bejelentkezés</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private RegisterViewModel RegisterViewModel { get; set; } = new RegisterViewModel();
+
+    public async Task HandleRegister(){
+        var success = await AuthenticationService.RegisterAsync(RegisterViewModel); 
+        if (success)
+        {
+            NavigationManager.NavigateTo("/topics");
+        }
+    }
+
+    public void Login(){
+        NavigationManager.NavigateTo("/login");
+    }
+}

@@ -1,0 +1,40 @@
+﻿<Window x:Class="VotingSystem.WPF.View.MessageWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VotingSystem.WPF.View"
+        mc:Ignorable="d"
+        Title="MessageWindow" Height="300" Width="650">
+    <Grid >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="1"  Background="#FF1D1E2B">
+            <Border Height="100" Grid.Column="1" Margin="-50,20,10,0" Background="#FF23243D"
+                BorderBrush="#FFD69052" BorderThickness="2,2,2,2" CornerRadius="50" VerticalAlignment="Top">
+                <TextBlock x:Name="MessageTextBlock" Background="#FF23243D" VerticalAlignment="Center" MaxHeight="100"
+                           Margin="50,0,50,0" TextWrapping="Wrap" FontSize="25" Foreground="#FFACACAC"/>
+            </Border>
+
+            <Border BorderBrush="#FFD69052" BorderThickness="2,2,2,2" VerticalAlignment="Bottom" Margin="0,0,10,20" 
+                    HorizontalAlignment="Right" Height="50" Width="200" CornerRadius="25" Background="#FF23243D">
+                <Button Content="Ok" FontSize="20" HorizontalContentAlignment="Center" Click="OkButton_Click"
+                        Background="{x:Null}" FontFamily="Calibri Light" Foreground="#FFD69052" BorderBrush="{x:Null}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="Transparent">
+                                <ContentPresenter HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </Border>
+        </Grid>
+
+        <Grid Background="#FFD69052"/>
+    </Grid>
+</Window>
